@@ -1,7 +1,7 @@
 # Gerador e Checker de CPF
 Um script em python que checa e gera CPFs
 
-![Sample Image](./assets/image.png "Exemplo da versão compilada e do exec.py")
+![Sample GIF](./assets/sample.gif "Exemplo da versão compilada e do exec.py")
 
 ## Atenção
 Esse script não dá a total certeza se o CPF é válido ou não, ele valida e/ou invalida baseado nos padrões de CPF brasileiros.
