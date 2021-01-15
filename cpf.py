@@ -43,6 +43,7 @@ def gerar(quantidade=1):
     """
     import random
     valid_rcpf = []
+    valid_cpfs = []
     while len(valid_rcpf) != quantidade:
         raw_cpfs = []
         for i in range(quantidade):
@@ -52,4 +53,6 @@ def gerar(quantidade=1):
             raw_cpfs.append(rcpf)
             if checar(raw_cpfs[i]):
                 valid_rcpf.append(raw_cpfs[i])
-    return valid_rcpf
+    for i in range(len(valid_rcpf)):
+        valid_cpfs.append(valid_rcpf[i][:3]+"."+valid_rcpf[i][3:6]+"."+valid_rcpf[i][6:9]+"-"+valid_rcpf[i][9::])
+    return valid_cpfs
