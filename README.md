@@ -54,3 +54,4 @@ print(cpf.checar(cpf.gerar()[0]))
 - [x] Checker
 - [x] Gerador
 - [ ] Adicionar opção de região e reconhecimento de região
+- [ ] Pontuação nos CPFs gerados
