@@ -12,6 +12,7 @@ Você pode importar o arquivo ``cpf.py`` para o seu projeto ou baixar e utilizar
 ## Funções
 Para usar, basta baixar o ``cpf.py`` e colocar ele na mesma pasta do seu projeto com ``import cpf``
 - ``checar(cpf)``
+
 Checa um CPF.
 
 Se nenhum CPF for passado como parametro ``str``, um ``input()`` será pedido.
@@ -19,6 +20,7 @@ Se nenhum CPF for passado como parametro ``str``, um ``input()`` será pedido.
 Retorna ``True`` quando um CPF é válido e ``False`` quando é inválido
 
 - ``gerar(quantidade)``
+
 Gera um CPF aleatório.
 
 Retorna uma **lista** com os CPFs gerados (já checados).
