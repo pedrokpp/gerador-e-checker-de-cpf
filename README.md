@@ -7,7 +7,7 @@ Um script em python que checa e gera CPFs
 Esse script não dá a total certeza se o CPF é válido ou não, ele valida e/ou invalida baseado nos padrões de CPF brasileiros.
 
 ## Modos de uso
-Você pode importar o arquivo ``cpf.py`` para o seu projeto ou baixar e utilizar ``exec.py`` ou a [versão compilada disponível nas releases](https://github.com/pedrokpp/gerador-e-checker-de-cpf/releases/download/1.0/exec.exe)
+Você pode importar o arquivo ``cpf.py`` para o seu projeto ou baixar e utilizar ``exec.py`` ou a [versão compilada disponível nas releases](https://github.com/pedrokpp/gerador-e-checker-de-cpf/releases/download/1.1/exec.exe)
 
 ## Funções
 Para usar, basta baixar o ``cpf.py`` e colocar ele na mesma pasta do seu projeto com ``import cpf``
