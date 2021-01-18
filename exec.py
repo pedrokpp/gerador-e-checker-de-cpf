@@ -19,13 +19,23 @@ def main():
             print("ERRO: falha ao converter quantidade de CPFs para int (provavelmente não números foram digitados).")
             os.system("pause")
             exit(-1)
+        r = input("Qual região deseja por em todos os CPFs? (aperte ENTER para região aleatória) ")
+        if r:
+            try:
+                r = int(r)
+            except:
+                print("ERRO: falha ao converter região dos CPFs para int (provavelmente não números foram digitados).")
+                os.system("pause")
+                exit(-1)
+        else:
+            r=-1
         print("CPFs gerados:")
-        print(cpf.gerar(q))
+        print(cpf.gerar(q,r))
         print(" ")
         os.system("pause")
     elif c == "2":
         print(" ")
-        if cpf.checar():
+        if cpf.checar("",True):
             print("CPF válido")
             print(" ")
             os.system("pause")
