@@ -10,7 +10,7 @@ Esse script não dá a total certeza se o CPF é válido ou não, ele valida ou 
 Você pode importar o arquivo ``cpf.py`` para o seu projeto ou baixar e utilizar ``exec.py`` ou a [versão compilada disponível nas releases](https://github.com/pedrokpp/gerador-e-checker-de-cpf/releases/download/2.0/cpf.exe)
 
 ## Funções
-Para usar, basta baixar o ``cpf.py`` e colocar ele na mesma pasta do seu projeto com ``import cpf``
+Para usar, basta ``pip install cpf`` e depois importar com ``import cpf``
 
 - ``checar(cpf, regiao)``
 
