@@ -1,0 +1,6 @@
+ChangeLogs
+============
+
+2.0 (20/01/2021)
+------------------
+> Released as a package 
