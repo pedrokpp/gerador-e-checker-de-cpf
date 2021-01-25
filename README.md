@@ -100,6 +100,6 @@ print(cpf.gerar(7,3))
 - [x] Checker
 - [x] Gerador
 - [x] Adicionar opção de região e reconhecimento de região
-- [x] Pontuação nos CPFs gerados
+- [ ] Escolher formatar ou não os CPFs gerados
 - [ ] Opção de região por nome ao invés de números
 - [ ] Versão em API
