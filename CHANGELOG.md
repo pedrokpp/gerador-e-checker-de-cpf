@@ -5,6 +5,17 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [3.0.1] - 2026-03-08
+
+### 🔧 Modificado
+
+- Atualizado email do autor de `pedrokp@protonmail.com` para `pedrkp@proton.me`
+- Atualizado em todos os metadados do pacote (pyproject.toml, __init__.py, README.md)
+
+Sem mudanças funcionais em relação à v3.0.0.
+
+---
+
 ## [3.0.0] - 2026-03-08
 
 ### 🎉 Versão Principal - Refatoração Completa
