@@ -269,7 +269,7 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE.txt](
 
 ## Autor
 
-**pedrokp** - [pedrokp@protonmail.com](mailto:pedrokp@protonmail.com)
+**pedrokp** - [pedrkp@proton.me](mailto:pedrkp@proton.me)
 
 ## Links
 

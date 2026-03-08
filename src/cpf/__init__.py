@@ -27,7 +27,7 @@ Para mais informações, acesse: https://github.com/pedrokpp/gerador-e-checker-d
 
 __version__ = "3.0.0"
 __author__ = "pedrokp"
-__email__ = "pedrokp@protonmail.com"
+__email__ = "pedrkp@proton.me"
 
 from .presentation.api import checar, gerar, generate, validate
 
