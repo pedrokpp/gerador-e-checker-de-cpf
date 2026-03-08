@@ -25,7 +25,7 @@ Exemplos:
 Para mais informações, acesse: https://github.com/pedrokpp/gerador-e-checker-de-cpf
 """
 
-__version__ = "3.0.0"
+__version__ = "3.0.1"
 __author__ = "pedrokp"
 __email__ = "pedrkp@proton.me"
 
