@@ -1,35 +1,35 @@
-# Gerador e Validador de CPF
+# Gerador e Validador de CPF e CNPJ
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Uma biblioteca Python moderna para validar e gerar CPFs (Cadastro de Pessoas Físicas) brasileiros de acordo com o algoritmo oficial.
+Uma biblioteca Python moderna para validar e gerar CPFs e CNPJs brasileiros de acordo com os algoritmos oficiais.
 
 ## Características
 
-- ✅ **Validação correta**: Usa o algoritmo módulo 11 oficial
-- ✅ **Geração eficiente**: Gera CPFs válidos de forma determinística  
-- ✅ **Suporte a regiões**: Valida e gera CPFs por estado/região
-- ✅ **Formatação flexível**: Aceita CPFs formatados ou não
+- ✅ **Validação correta**: Usa algoritmos módulo 11 oficiais
+- ✅ **Geração eficiente**: Gera documentos válidos de forma determinística  
+- ✅ **CPF com regiões**: Valida e gera CPFs por estado/região
+- ✅ **CNPJ com filiais**: Gera matrizes (0001) ou filiais aleatórias
+- ✅ **Formatação flexível**: Aceita entrada formatada ou não
 - ✅ **Type hints completos**: Totalmente tipado para melhor IDE support
-- ✅ **Testado**: 97% de code coverage com testes unitários e de integração
+- ✅ **98% de cobertura**: 209 testes unitários e de integração
 - ✅ **Clean Architecture**: Código organizado com princípios SOLID
-- ✅ **Backward compatible**: Mantém compatibilidade com versão 2.x
 
 ## Instalação
 
-```bash
+\`\`\`bash
 pip install cpf
-```
+\`\`\`
 
 ## Uso Rápido
 
-### API Moderna (v3.0+)
+### CPF
 
-```python
+\`\`\`python
 import cpf
 
-# Validação simples
+# Validação
 cpf.validate("494.351.429-40")  # True
 cpf.validate("49435142940")      # True (aceita sem formatação)
 cpf.validate("111.111.111-11")  # False (dígitos iguais)
@@ -38,226 +38,143 @@ cpf.validate("111.111.111-11")  # False (dígitos iguais)
 result = cpf.validate("494.351.429-40", show_region=True)
 # {'valid': True, 'region': 'Paraná – Santa Catarina'}
 
-# Geração de CPFs
+# Geração
 cpfs = cpf.generate(count=5)
 # ['222.272.431-78', '157.258.802-50', ...]
 
-# Gerar CPFs de uma região específica (por número)
-cpfs = cpf.generate(count=3, region=8)  # São Paulo
-# ['874.152.887-82', '447.887.248-50', ...]
+# Geração por região (número, nome ou sigla)
+cpfs = cpf.generate(count=3, region=8)        # São Paulo
+cpfs = cpf.generate(count=3, region="SP")     # por sigla
+cpfs = cpf.generate(count=3, region="rio de janeiro")  # por nome
 
-# Gerar CPFs de uma região específica (por nome/sigla)
-cpfs = cpf.generate(count=3, region="SP")
-cpfs = cpf.generate(count=3, region="São Paulo")
-cpfs = cpf.generate(count=3, region="rio de janeiro")
-
-# Gerar CPFs sem formatação
+# Sem formatação
 cpfs = cpf.generate(count=2, formatted=False)
 # ['22227243178', '15725880250']
-```
+\`\`\`
 
-### API Legada (v2.x - Compatibilidade)
+### CNPJ
 
-A biblioteca mantém 100% de compatibilidade com a versão 2.x:
+\`\`\`python
+import cnpj
 
-```python
-import cpf
+# Validação
+cnpj.validate("11.222.333/0001-81")  # True
+cnpj.validate("11222333000181")       # True (aceita sem formatação)
+cnpj.validate("11.111.111/1111-11")  # False (dígitos iguais)
 
-# checar() - equivalente a validate()
-cpf.checar("494.351.429-40")  # True
-cpf.checar("494.351.429-40", regiao=True)  # True + imprime região
+# Geração de matrizes (filial 0001)
+cnpjs = cnpj.generate(count=5, matriz_only=True)
+# ['11.222.333/0001-81', '45.678.901/0001-23', ...]
 
-# gerar() - equivalente a generate()  
-cpfs = cpf.gerar(quantidade=5)
-cpfs = cpf.gerar(quantidade=5, regiao=8)  # São Paulo
-```
+# Geração com filiais aleatórias
+cnpjs = cnpj.generate(count=5, matriz_only=False)
+# ['11.222.333/0245-67', '45.678.901/1234-56', ...]
+
+# Sem formatação
+cnpjs = cnpj.generate(count=2, formatted=False)
+# ['11222333000181', '45678901000123']
+\`\`\`
 
 ## Regiões do CPF
 
 O 9º dígito do CPF indica a região de emissão:
 
-| Código | Região | Estados |
-|--------|--------|---------|
-| **0** | Rio Grande do Sul | RS |
-| **1** | Centro-Oeste | DF, GO, MS, MT, TO |
-| **2** | Norte | AC, AM, AP, PA, RO, RR |
-| **3** | Nordeste (Norte) | CE, MA, PI |
-| **4** | Nordeste (Leste) | AL, PB, PE, RN |
-| **5** | Nordeste (Sul) | BA, SE |
-| **6** | Sudeste | MG |
-| **7** | Sudeste | ES, RJ |
-| **8** | Sudeste | SP |
-| **9** | Sul | PR, SC |
-
-## Exemplos Avançados
-
-### Validação
-
-```python
-import cpf
-
-# Valida CPFs que falhavam incorretamente na v2.x (Issue #2 - RESOLVIDO)
-cpf.validate("494.351.429-40")  # ✅ True
-cpf.validate("654.926.122-80")  # ✅ True  
-cpf.validate("132.923.016-70")  # ✅ True
-cpf.validate("918.758.814-50")  # ✅ True
-
-# Aceita formatação variada
-cpf.validate("494.351.429-40")  # Com pontos e hífen
-cpf.validate("49435142940")      # Sem formatação
-cpf.validate("494 351 429 40")  # Com espaços (é normalizado)
-
-# Rejeita CPFs inválidos
-cpf.validate("000.000.000-00")  # False - todos dígitos iguais
-cpf.validate("123.456.789-00")  # False - dígitos verificadores errados
-```
-
-### Geração
-
-```python
-import cpf
-
-# Gerar CPF de estado específico usando sigla
-sp_cpf = cpf.generate(region="SP")[0]
-print(sp_cpf)  # Ex: "874.152.887-82"
-
-# Gerar vários CPFs do Rio de Janeiro
-rj_cpfs = cpf.generate(count=10, region="RJ")
-
-# Gerar CPFs sem formatação para banco de dados
-unformatted = cpf.generate(count=5, formatted=False)
-print(unformatted)  # ['87415288782', '44788724850', ...]
-
-# Gerar CPFs com regiões aleatórias (padrão)
-random_cpfs = cpf.generate(count=100)
-```
-
-## Novidades na Versão 3.0
-
-### 🐛 Correções
-
-- **[Issue #2]** Corrigido algoritmo de validação que rejeitava CPFs válidos incorretamente
-  - CPFs como `494.351.429-40` agora são validados corretamente
-  - Implementado algoritmo módulo 11 oficial
-  
-- **[Issue #1]** Migração para `pyproject.toml` (PEP 517/518)
-  - Suporte moderno para instalação via pip
-  - Compatível com pip 23.1+
-
-### ✨ Novos Recursos
-
-- **Região por nome**: Gere CPFs usando nome ou sigla do estado
-  ```python
-  cpf.generate(region="SP")
-  cpf.generate(region="São Paulo")
-  ```
-
-- **Formatação configurável**: Escolha se quer CPFs formatados ou não
-  ```python
-  cpf.generate(formatted=False)  # Retorna XXXXXXXXXXX
-  cpf.generate(formatted=True)   # Retorna XXX.XXX.XXX-XX
-  ```
-
-- **Nova API moderna**: Funções `validate()` e `generate()` mais pythônicas
-- **Type hints completos**: Melhor suporte para IDEs e type checkers
-- **97% de test coverage**: Testes unitários e de integração extensivos
-
-### 🏗️ Melhorias Técnicas
-
-- **Clean Architecture**: Código organizado em camadas (Domain, Application, Infrastructure, Presentation)
-- **Princípios SOLID**: Código mais manutenível e extensível
-- **Geração eficiente**: Novo algoritmo determinístico (sem loops infinitos)
-- **Python 3.8+**: Suporte para Python 3.8, 3.9, 3.10, 3.11 e 3.12
-- **Cross-platform**: Funciona em Windows, Linux e macOS
+| Código | Estados |
+|--------|---------|
+| **0** | RS |
+| **1** | DF, GO, MS, MT, TO |
+| **2** | AC, AM, AP, PA, RO, RR |
+| **3** | CE, MA, PI |
+| **4** | AL, PB, PE, RN |
+| **5** | BA, SE |
+| **6** | MG |
+| **7** | ES, RJ |
+| **8** | SP |
+| **9** | PR, SC |
 
 ## Desenvolvimento
 
-### Instalando dependências de desenvolvimento
+### Instalando dependências
 
-```bash
+\`\`\`bash
 git clone https://github.com/pedrokpp/gerador-e-checker-de-cpf
 cd gerador-e-checker-de-cpf
 python -m venv .venv
 source .venv/bin/activate  # Linux/Mac
-# ou .venv\Scripts\activate no Windows
+# ou .venv\\Scripts\\activate no Windows
 pip install -e ".[dev]"
-```
+\`\`\`
 
 ### Rodando testes
 
-```bash
+\`\`\`bash
 pytest tests/ -v
-pytest tests/ --cov=src/cpf  # Com coverage
-```
+pytest tests/ --cov=src/cpf --cov=src/cnpj  # Com coverage
+\`\`\`
 
 ### Build
 
-```bash
-pip install build
+\`\`\`bash
 python -m build
-```
+\`\`\`
 
 ## Exemplos CLI
 
 O projeto inclui scripts de exemplo interativos:
 
-### Interface Moderna (v3.0 API)
-```bash
-python examples/cli_modern.py
-```
-- Validação com informação de região
-- Geração com região por nome/sigla ("SP", "Rio de Janeiro")
-- Formatação configurável
-- Validação em lote
+\`\`\`bash
+python examples/cli_modern.py  # CPF (API v3.0)
+python examples/cli_cnpj.py    # CNPJ (API v3.1)
+python examples/cli_legacy.py  # CPF (API v2.x compatível)
+\`\`\`
 
-### Interface Legada (v2.x API)
-```bash
-python examples/cli_legacy.py
-```
-- Demonstra backward compatibility
-- Usa funções `checar()` e `gerar()`
-
-Ver [examples/README.md](examples/README.md) para mais detalhes e exemplos de código.
+Ver [examples/README.md](examples/README.md) para mais detalhes.
 
 ## Estrutura do Projeto
 
-```
-src/cpf/
-├── domain/          # Entidades e regras de negócio
-│   ├── entities.py  # CPF value object
-│   └── region.py    # Enum de regiões
-├── application/     # Casos de uso
-│   ├── validate_cpf.py
-│   └── generate_cpf.py
-├── infrastructure/  # Implementações concretas
-│   ├── cpf_validator.py  # Validador módulo 11
-│   └── cpf_generator.py  # Gerador determinístico
-└── presentation/    # API pública
-    └── api.py       # validate(), generate(), checar(), gerar()
+\`\`\`
+src/
+├── cpf/                  # Módulo CPF
+│   ├── domain/          # Entidades (CPF, Region)
+│   ├── application/     # Casos de uso
+│   ├── infrastructure/  # Validador e gerador
+│   └── presentation/    # API pública
+└── cnpj/                 # Módulo CNPJ
+    ├── domain/          # Entidades (CNPJ)
+    ├── application/     # Casos de uso
+    ├── infrastructure/  # Validador e gerador
+    └── presentation/    # API pública
+\`\`\`
 
-examples/           # Scripts CLI de exemplo
-├── cli_modern.py  # Interface moderna (v3.0 API)
-├── cli_legacy.py  # Interface legada (v2.x API)
-└── README.md      # Documentação dos exemplos
-```
+## API Legada
+
+A biblioteca mantém compatibilidade com versão 2.x para CPF:
+
+\`\`\`python
+import cpf
+
+# Funções legadas (backward compatible)
+cpf.checar("494.351.429-40")  # equivalente a validate()
+cpf.gerar(quantidade=5)        # equivalente a generate()
+\`\`\`
 
 ## Atenção
 
-Este script valida CPFs de acordo com os **padrões técnicos** brasileiros (algoritmo módulo 11). A validação **não garante** que o CPF está cadastrado na Receita Federal, apenas que é um número válido segundo as regras de formação.
+Estes scripts validam CPFs e CNPJs de acordo com os **padrões técnicos** brasileiros (algoritmo módulo 11). A validação **não garante** que o documento está cadastrado na Receita Federal, apenas que é um número válido segundo as regras de formação.
 
 ## Contribuindo
 
 Contribuições são bem-vindas! Por favor:
 
 1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
+2. Crie uma branch para sua feature (\`git checkout -b feature/MinhaFeature\`)
+3. Commit suas mudanças (\`git commit -m 'Adiciona MinhaFeature'\`)
+4. Push para a branch (\`git push origin feature/MinhaFeature\`)
 5. Abra um Pull Request
 
 ### Reportando Bugs
 
-Se encontrar um bug, por favor abra uma [issue](https://github.com/pedrokpp/gerador-e-checker-de-cpf/issues) com:
+Abra uma [issue](https://github.com/pedrokpp/gerador-e-checker-de-cpf/issues) com:
 - Descrição do problema
 - Exemplo de código que reproduz o bug
 - Comportamento esperado vs comportamento atual
@@ -265,7 +182,7 @@ Se encontrar um bug, por favor abra uma [issue](https://github.com/pedrokpp/gera
 
 ## Licença
 
-Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE.txt](LICENSE.txt) para detalhes.
+MIT License - veja [LICENSE.txt](LICENSE.txt) para detalhes.
 
 ## Autor
 
@@ -276,3 +193,4 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE.txt](
 - 📦 [PyPI](https://pypi.org/project/cpf/)
 - 🐙 [GitHub](https://github.com/pedrokpp/gerador-e-checker-de-cpf)
 - 🐛 [Issues](https://github.com/pedrokpp/gerador-e-checker-de-cpf/issues)
+- 📋 [CHANGELOG](CHANGELOG.md)
