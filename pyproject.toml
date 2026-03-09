@@ -4,12 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cpf"
-version = "3.0.1"
-description = "Gera e valida CPFs de acordo com o padrão brasileiro."
+version = "3.1.0"
+description = "Gera e valida CPFs e CNPJs de acordo com os padrões brasileiros."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
-keywords = ["cpf", "brasil", "validacao", "gerador", "validator", "generator", "brazilian"]
+keywords = ["cpf", "cnpj", "brasil", "validacao", "gerador", "validator", "generator", "brazilian"]
 authors = [
     { name = "pedrokp", email = "pedrkp@proton.me" }
 ]
@@ -38,10 +38,8 @@ Homepage = "https://github.com/pedrokpp/gerador-e-checker-de-cpf"
 Repository = "https://github.com/pedrokpp/gerador-e-checker-de-cpf"
 Issues = "https://github.com/pedrokpp/gerador-e-checker-de-cpf/issues"
 
-[tool.hatch.build]
-directory = "src"
-
 [tool.hatch.build.targets.wheel]
+packages = ["src/cpf", "src/cnpj"]
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -69,6 +67,7 @@ python_functions = ["test_*"]
 addopts = [
     "--verbose",
     "--cov=src/cpf",
+    "--cov=src/cnpj",
     "--cov-report=term-missing",
     "--cov-report=html",
 ]
