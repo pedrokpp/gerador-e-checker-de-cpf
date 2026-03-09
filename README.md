@@ -18,15 +18,15 @@ Uma biblioteca Python moderna para validar e gerar CPFs e CNPJs brasileiros de a
 
 ## Instalação
 
-\`\`\`bash
+```bash
 pip install cpf
-\`\`\`
+```
 
 ## Uso Rápido
 
 ### CPF
 
-\`\`\`python
+```python
 import cpf
 
 # Validação
@@ -50,11 +50,11 @@ cpfs = cpf.generate(count=3, region="rio de janeiro")  # por nome
 # Sem formatação
 cpfs = cpf.generate(count=2, formatted=False)
 # ['22227243178', '15725880250']
-\`\`\`
+```
 
 ### CNPJ
 
-\`\`\`python
+```python
 import cnpj
 
 # Validação
@@ -73,7 +73,7 @@ cnpjs = cnpj.generate(count=5, matriz_only=False)
 # Sem formatação
 cnpjs = cnpj.generate(count=2, formatted=False)
 # ['11222333000181', '45678901000123']
-\`\`\`
+```
 
 ## Regiões do CPF
 
@@ -96,43 +96,43 @@ O 9º dígito do CPF indica a região de emissão:
 
 ### Instalando dependências
 
-\`\`\`bash
+```bash
 git clone https://github.com/pedrokpp/gerador-e-checker-de-cpf
 cd gerador-e-checker-de-cpf
 python -m venv .venv
 source .venv/bin/activate  # Linux/Mac
-# ou .venv\\Scripts\\activate no Windows
+# ou .venv\Scripts\activate no Windows
 pip install -e ".[dev]"
-\`\`\`
+```
 
 ### Rodando testes
 
-\`\`\`bash
+```bash
 pytest tests/ -v
 pytest tests/ --cov=src/cpf --cov=src/cnpj  # Com coverage
-\`\`\`
+```
 
 ### Build
 
-\`\`\`bash
+```bash
 python -m build
-\`\`\`
+```
 
 ## Exemplos CLI
 
 O projeto inclui scripts de exemplo interativos:
 
-\`\`\`bash
+```bash
 python examples/cli_modern.py  # CPF (API v3.0)
 python examples/cli_cnpj.py    # CNPJ (API v3.1)
 python examples/cli_legacy.py  # CPF (API v2.x compatível)
-\`\`\`
+```
 
 Ver [examples/README.md](examples/README.md) para mais detalhes.
 
 ## Estrutura do Projeto
 
-\`\`\`
+```
 src/
 ├── cpf/                  # Módulo CPF
 │   ├── domain/          # Entidades (CPF, Region)
@@ -144,19 +144,19 @@ src/
     ├── application/     # Casos de uso
     ├── infrastructure/  # Validador e gerador
     └── presentation/    # API pública
-\`\`\`
+```
 
 ## API Legada
 
 A biblioteca mantém compatibilidade com versão 2.x para CPF:
 
-\`\`\`python
+```python
 import cpf
 
 # Funções legadas (backward compatible)
 cpf.checar("494.351.429-40")  # equivalente a validate()
 cpf.gerar(quantidade=5)        # equivalente a generate()
-\`\`\`
+```
 
 ## Atenção
 
@@ -167,9 +167,9 @@ Estes scripts validam CPFs e CNPJs de acordo com os **padrões técnicos** brasi
 Contribuições são bem-vindas! Por favor:
 
 1. Faça um fork do projeto
-2. Crie uma branch para sua feature (\`git checkout -b feature/MinhaFeature\`)
-3. Commit suas mudanças (\`git commit -m 'Adiciona MinhaFeature'\`)
-4. Push para a branch (\`git push origin feature/MinhaFeature\`)
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
 5. Abra um Pull Request
 
 ### Reportando Bugs
