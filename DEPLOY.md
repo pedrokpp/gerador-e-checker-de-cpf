@@ -1,4 +1,4 @@
-# Instruções de Deploy - CPF v3.0.0
+# Instruções de Deploy - CPF/CNPJ v3.1.0
 
 ## Pré-requisitos
 
@@ -15,11 +15,11 @@
 source .venv/bin/activate  # Linux/Mac
 # ou .venv\Scripts\activate  # Windows
 
-# Rodar testes
-pytest tests/ -v --cov=src/cpf
+# Rodar testes (CPF e CNPJ)
+pytest tests/ -v --cov=src/cpf --cov=src/cnpj
 
-# Verificar que todos os 112 testes passaram
-# Coverage deve estar em ~97%
+# Verificar que todos os 209 testes passaram (112 CPF + 97 CNPJ)
+# Coverage deve estar em ~98%
 ```
 
 ### 2. Verificar que as issues foram resolvidas
@@ -37,11 +37,35 @@ print('✅ Issue #2 resolvida!')
 "
 ```
 
+### 2.5. Verificar funcionalidades CNPJ
+
+```bash
+# Testar CNPJs válidos conhecidos
+python -c "
+import sys
+sys.path.insert(0, 'src')
+import cnpj
+
+# Validar CNPJs conhecidos
+assert cnpj.validate('11.222.333/0001-81'), 'CNPJ válido deve passar'
+assert cnpj.validate('11222333000181'), 'CNPJ válido sem formatação deve passar'
+assert not cnpj.validate('11.111.111/1111-11'), 'CNPJ inválido deve falhar'
+
+# Gerar CNPJs
+cnpjs = cnpj.generate(count=5, matriz_only=True)
+assert len(cnpjs) == 5, 'Deve gerar 5 CNPJs'
+for c in cnpjs:
+    assert cnpj.validate(c), f'CNPJ {c} deve ser válido'
+
+print('✅ Funcionalidades CNPJ verificadas!')
+"
+```
+
 ### 3. Build do pacote
 
 ```bash
 # Limpar builds anteriores
-rm -rf dist/*.whl dist/cpf-3.0.0.tar.gz
+rm -rf dist/*.whl dist/cpf-3.1.0.tar.gz
 
 # Fazer build
 python -m build
@@ -49,8 +73,8 @@ python -m build
 # Verificar arquivos gerados
 ls -lh dist/
 # Deve conter:
-# - cpf-3.0.0-py3-none-any.whl
-# - cpf-3.0.0.tar.gz
+# - cpf-3.1.0-py3-none-any.whl
+# - cpf-3.1.0.tar.gz
 ```
 
 ### 4. Testar instalação local
@@ -61,26 +85,29 @@ python -m venv /tmp/test_cpf
 source /tmp/test_cpf/bin/activate
 
 # Instalar wheel
-pip install dist/cpf-3.0.0-py3-none-any.whl
+pip install dist/cpf-3.1.0-py3-none-any.whl
 
-# Testar funcionalidades básicas
+# Testar funcionalidades CPF e CNPJ
 python -c "
 import cpf
+import cnpj
 
-# Issue #2
+# Testar CPF (existente)
 assert cpf.validate('49435142940')
-assert cpf.validate('65492612280')
-
-# Nova API
 cpfs = cpf.generate(count=3, region='SP')
 assert len(cpfs) == 3
 
-# Backward compatibility
+# Testar CNPJ (novo!)
+assert cnpj.validate('11.222.333/0001-81')
+cnpjs = cnpj.generate(count=3, matriz_only=True)
+assert len(cnpjs) == 3
+
+# Backward compatibility CPF
 assert cpf.checar('49435142940')
 cpfs_legacy = cpf.gerar(2, 8)
 assert len(cpfs_legacy) == 2
 
-print('✅ Todas as funcionalidades testadas!')
+print('✅ CPF e CNPJ testados com sucesso!')
 "
 
 # Sair do ambiente de teste
@@ -102,7 +129,7 @@ pip install twine
 twine upload --repository testpypi dist/*
 
 # Testar instalação do TestPyPI
-pip install --index-url https://test.pypi.org/simple/ cpf==3.0.0
+pip install --index-url https://test.pypi.org/simple/ cpf==3.1.0
 ```
 
 3. **Upload para PyPI produção**:
@@ -117,8 +144,8 @@ twine upload dist/*
 
 4. **Verificar no PyPI**:
    - Acesse https://pypi.org/project/cpf/
-   - Verifique se a versão 3.0.0 aparece
-   - Verifique se o README.md está renderizado corretamente
+   - Verifique se a versão 3.1.0 aparece
+   - Verifique se o README.md está renderizado corretamente (com exemplos de CNPJ)
 
 ### Opção 2: Usando Token Salvo
 
@@ -148,19 +175,19 @@ twine upload dist/*
 ### 1. Criar Git Tag
 
 ```bash
-git tag -a v3.0.0 -m "Release v3.0.0 - Refatoração completa com Clean Architecture"
-git push origin v3.0.0
+git tag -a v3.1.0 -m "Release v3.1.0 - Adiciona suporte a CNPJ"
+git push origin v3.1.0
 ```
 
 ### 2. Criar GitHub Release
 
 1. Ir para https://github.com/pedrokpp/gerador-e-checker-de-cpf/releases/new
-2. Selecionar a tag `v3.0.0`
-3. Título: `v3.0.0 - Refatoração Completa`
+2. Selecionar a tag `v3.1.0`
+3. Título: `v3.1.0 - Suporte a CNPJ`
 4. Descrição: Copiar do CHANGELOG.md
 5. Anexar os arquivos:
-   - `dist/cpf-3.0.0-py3-none-any.whl`
-   - `dist/cpf-3.0.0.tar.gz`
+   - `dist/cpf-3.1.0-py3-none-any.whl`
+   - `dist/cpf-3.1.0.tar.gz`
 6. Publicar release
 
 ### 3. Testar Instalação Pública
@@ -176,12 +203,22 @@ pip install cpf
 # Verificar versão
 python -c "import cpf; print('Versão instalada:', cpf.__version__)"
 
-# Testar funcionalidades
+# Testar funcionalidades CPF e CNPJ
 python -c "
 import cpf
+import cnpj
+
+# CPF
 assert cpf.validate('49435142940')
-cpfs = cpf.generate(count=5, region='SP')
-print(f'✅ Instalação pública funcionando! CPFs gerados: {cpfs}')
+cpfs = cpf.generate(count=3, region='SP')
+
+# CNPJ
+assert cnpj.validate('11.222.333/0001-81')
+cnpjs = cnpj.generate(count=3)
+
+print(f'✅ CPF e CNPJ funcionando!')
+print(f'CPFs: {cpfs}')
+print(f'CNPJs: {cnpjs}')
 "
 ```
 
@@ -224,15 +261,16 @@ Se algo der errado:
 
 Antes de fazer deploy, confirme:
 
-- [ ] Todos os 112 testes passando
-- [ ] Coverage >= 97%
-- [ ] README.md atualizado
-- [ ] CHANGELOG.md atualizado
-- [ ] Versão correta no pyproject.toml (3.0.0)
+- [ ] Todos os 209 testes passando (112 CPF + 97 CNPJ)
+- [ ] Coverage >= 98%
+- [ ] README.md atualizado com exemplos CNPJ
+- [ ] CHANGELOG.md atualizado com v3.1.0
+- [ ] Versão correta no pyproject.toml (3.1.0)
 - [ ] Build local funcionando
-- [ ] Teste de instalação local passou
+- [ ] Teste de instalação local passou (CPF + CNPJ)
 - [ ] CPFs da issue #2 validando corretamente
-- [ ] Backward compatibility funcionando
+- [ ] CNPJs validando e gerando corretamente
+- [ ] Backward compatibility CPF funcionando
 - [ ] Código commitado no Git
 - [ ] Branch main atualizada
 
