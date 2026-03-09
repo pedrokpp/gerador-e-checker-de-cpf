@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cpf"
-version = "3.1.0"
+version = "3.1.1"
 description = "Gera e valida CPFs e CNPJs de acordo com os padrões brasileiros."
 readme = "README.md"
 requires-python = ">=3.8"

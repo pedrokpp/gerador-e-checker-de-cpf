@@ -5,6 +5,14 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [3.1.1] - 2026-03-09
+
+### 🔧 Corrigido
+
+- **README.md**: Corrigida formatação de blocos de código markdown para renderização correta no PyPI
+  - Substituídos backticks escapados (`\`\`\``) por backticks normais (` ``` `)
+  - Garantida compatibilidade com renderização do PyPI
+
 ## [3.1.0] - 2026-03-09
 
 ### 🎉 Novo Recurso - Suporte a CNPJ
@@ -280,6 +288,7 @@ Embora mantidas por compatibilidade, recomendamos migrar para a nova API:
 - `Corrigido` para correções de bugs
 - `Segurança` para vulnerabilidades
 
+[3.1.1]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/compare/v3.0.1...v3.1.0
 [3.0.1]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/compare/v2.1...v3.0.0
