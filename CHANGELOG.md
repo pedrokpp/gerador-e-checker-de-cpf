@@ -5,6 +5,114 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [3.1.0] - 2026-03-09
+
+### 🎉 Novo Recurso - Suporte a CNPJ
+
+Esta versão adiciona suporte completo para validação e geração de CNPJs (Cadastro Nacional da Pessoa Jurídica), mantendo a mesma qualidade e arquitetura do módulo CPF.
+
+### 🆕 Adicionado
+
+#### Módulo CNPJ Completo
+
+- **Novo módulo `cnpj`** com API moderna e consistente com CPF
+  - `cnpj.validate(cnpj)`: Valida CNPJs usando algoritmo módulo 11 oficial
+  - `cnpj.generate(count=1, formatted=True, matriz_only=True)`: Gera CNPJs válidos
+  
+- **Validação de CNPJ**:
+  - Aceita entrada formatada (`XX.XXX.XXX/XXXX-XX`) ou não formatada (14 dígitos)
+  - Implementa algoritmo módulo 11 oficial com pesos específicos
+  - Rejeita CNPJs com todos os dígitos iguais
+  - Type hints completos
+  - Exemplos:
+    ```python
+    import cnpj
+    cnpj.validate("11.222.333/0001-81")  # True
+    cnpj.validate("11222333000181")      # True
+    cnpj.validate("11.111.111/1111-11")  # False
+    ```
+
+- **Geração de CNPJ**:
+  - Parâmetro `matriz_only`: controla se gera apenas matrizes (0001) ou filiais aleatórias
+  - Parâmetro `formatted`: escolha entre formato `XX.XXX.XXX/XXXX-XX` ou `XXXXXXXXXXXXXX`
+  - Geração determinística (sempre válido na primeira tentativa)
+  - Exemplos:
+    ```python
+    import cnpj
+    cnpj.generate(count=5, matriz_only=True)   # Gera 5 matrizes
+    cnpj.generate(count=3, matriz_only=False)  # Gera 3 filiais aleatórias
+    cnpj.generate(count=2, formatted=False)    # Sem formatação
+    ```
+
+#### Qualidade de Código
+
+- **97 novos testes** para CNPJ (total: 209 testes)
+  - Testes unitários completos (entities, validator, generator)
+  - Testes de integração completos (API)
+  - **100% de cobertura** no módulo CNPJ
+- **98% de cobertura geral** (superando meta de 97%)
+- Clean Architecture mantida (Domain, Application, Infrastructure, Presentation)
+- Princípios SOLID aplicados
+
+#### Documentação e Exemplos
+
+- **README.md atualizado** com exemplos de CNPJ
+  - Seção de compatibilidade legada reduzida
+  - Documentação mais objetiva e enxuta
+  - Exemplos práticos de CPF e CNPJ lado a lado
+  
+- **Novo exemplo CLI interativo** (`examples/cli_cnpj.py`)
+  - Validação de CNPJ único
+  - Validação em lote
+  - Geração com opções de matriz/filial
+  - Interface amigável com menus
+  
+- **DEPLOY.md atualizado** com verificações CNPJ
+  - Testes para validação de CNPJs conhecidos
+  - Verificação de geração de CNPJs
+  - Checklist atualizado para v3.1.0
+
+### ♻️ Modificado
+
+- **pyproject.toml**:
+  - Versão atualizada para 3.1.0
+  - Descrição: "Gera e valida CPFs e CNPJs de acordo com os padrões brasileiros"
+  - Keywords: adicionado "cnpj"
+  - Coverage: agora cobre `src/cpf` e `src/cnpj`
+
+- **Estrutura do projeto**:
+  ```
+  src/
+  ├── cpf/      # Módulo CPF (existente)
+  └── cnpj/     # Módulo CNPJ (novo)
+      ├── domain/
+      ├── application/
+      ├── infrastructure/
+      └── presentation/
+  ```
+
+### 📊 Estatísticas
+
+- **Linhas de código**: +1.200 linhas de código CNPJ
+- **Testes**: 209 testes (112 CPF + 97 CNPJ)
+- **Cobertura**: 98% (100% no módulo CNPJ)
+- **Compatibilidade**: Python 3.8, 3.9, 3.10, 3.11, 3.12
+
+### 🔄 Compatibilidade
+
+- ✅ Mantém 100% de compatibilidade com v3.0.x
+- ✅ API CPF permanece inalterada
+- ✅ Funções legadas CPF continuam funcionando
+- ✅ Sem breaking changes
+
+### 📦 Instalação
+
+```bash
+pip install cpf  # Agora inclui suporte a CNPJ!
+```
+
+---
+
 ## [3.0.1] - 2026-03-08
 
 ### 🔧 Modificado
@@ -172,6 +280,8 @@ Embora mantidas por compatibilidade, recomendamos migrar para a nova API:
 - `Corrigido` para correções de bugs
 - `Segurança` para vulnerabilidades
 
+[3.1.0]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/compare/v3.0.1...v3.1.0
+[3.0.1]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/compare/v2.1...v3.0.0
 [2.1]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/releases/tag/v2.1
 [2.0]: https://github.com/pedrokpp/gerador-e-checker-de-cpf/releases/tag/v2.0
